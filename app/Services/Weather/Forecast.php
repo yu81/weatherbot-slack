@@ -60,7 +60,7 @@ EOT;
         return $r;
     }
 
-    public function exec($botChannel = '')
+    public function exec($botChannel = '', $postToSlack = true)
     {
         if ($botChannel === '') {
             $botChannel = env('WEATHER_CHANNEL_ID', '');
@@ -72,7 +72,9 @@ EOT;
             $result[] = $this->getSpecificForecast($locId);
         }
         $this->result = $result;
-        $this->postMessages($botChannel, $result);
+        if ($postToSlack) {
+            $this->postMessages($botChannel, $result);
+        }
 
         return $result;
     }
