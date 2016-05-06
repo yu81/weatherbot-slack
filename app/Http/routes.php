@@ -11,8 +11,11 @@
 |
 */
 require_once __DIR__ . '/../../vendor/autoload.php';
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get(
+    '/',
+    function () {
+        return view('welcome');
+    }
+);
 
 Route::get('/weather', 'Weather@index');
