@@ -47,6 +47,8 @@ class Forecast
 [ {$formattedDate} 発表 {$weatherInfo['title']} ]
 {$weatherInfo['forecasts'][0]['dateLabel']} の天気 {$weatherInfo['forecasts'][0]['telop']}
 {$weatherInfo['forecasts'][1]['dateLabel']} の天気 {$weatherInfo['forecasts'][1]['telop']} 予想最高気温 {$weatherInfo['forecasts'][1]['temperature']['max']['celsius']}℃ / 予想最低気温 {$weatherInfo['forecasts'][1]['temperature']['min']['celsius']}℃
+データ提供 {$weatherInfo['copyright']['provider']['name']} {$weatherInfo['copyright']['provider']['link']}
+{$weatherInfo['copyright']['title']}
 EOT;
 
         $currentHour  = date('H');
