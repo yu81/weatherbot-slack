@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: yusuke
- * Date: 2016/05/06
- * Time: 19:55
- */
 
 namespace App\Services\Weather;
 
