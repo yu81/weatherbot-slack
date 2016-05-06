@@ -45,8 +45,12 @@ class Forecast
         return $r;
     }
 
-    public function exec($botChannel)
+    public function exec($botChannel = '')
     {
+        if ($botChannel === '') {
+            $botChannel = env('WEATHER_CHANNEL_ID', '');
+        }
+        
         $locationIds = ['130010', '110010'];
         $result      = [];
         foreach ($locationIds as $locId) {
