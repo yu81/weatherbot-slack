@@ -2,6 +2,9 @@
 - [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
 ## What is it?
+http://weather.livedoor.com/weather_hacks/webservice  
+の天気予報APIを利用して、SlackBotを使って特定のSlackチャンネルに投稿する。
+事前のSlack関連設定が必要。
 
 ## deploy
 ### Heroku
