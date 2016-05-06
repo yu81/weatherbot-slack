@@ -15,4 +15,8 @@ http://weather.livedoor.com/weather_hacks/webservice
 - heroku config:set $(cat .env | egrep "^APP_KEY")
 - heroku config:set SLACK_API_KEY=YOUR_SLACK_API_KEY
 - heroku config:set WEATHER_CHANNEL_ID=YOUR_SLACK_CHANNEL_ID
+- heroku config:set WEATHER_LOCATION_IDS=COMMA_SEPARATED_AREA_ID
+    + WEATHER_LOCATION_IDS=130010,110010 など
+- heroku config:set WEATHER_LOCATION_CITY_NAMES=COMMA_SEPARATED_CITY_NAMES
+    + WEATHER_LOCATION_CITY_NAMES=新宿区,板橋区,渋谷区
 - access http://YOUR_APP_NAME/weather
