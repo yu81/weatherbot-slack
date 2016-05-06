@@ -42,7 +42,7 @@ class Forecast
         $r           = array_first($r);
         $r['name'] .= 'の天気';
         $r['prefLink'] = self::WEB_BASE_URL . $locId;
-        $formattedDate = (new \Datetime($weatherInfo['publicTime']))->format('Y年m月d日');
+        $formattedDate = (new \Datetime($weatherInfo['publicTime']))->format('Y年m月d日 H時i分');
         $r['message']  = <<<EOT
 [ {$formattedDate} 発表 {$weatherInfo['title']} ]
 {$weatherInfo['forecasts'][0]['dateLabel']} の天気 {$weatherInfo['forecasts'][0]['telop']}
