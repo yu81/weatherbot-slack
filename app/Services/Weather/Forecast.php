@@ -15,6 +15,7 @@ class Forecast
     const API_BASE_URL = 'http://weather.livedoor.com/forecast/webservice/json/v1';
     private $channelId = '';
     private $key = '';
+    public $result = [];
 
     public function __construct($key = '', $channelId = '')
     {
@@ -41,6 +42,15 @@ class Forecast
         $r           = array_first($r);
         $r['name'] .= 'の天気';
         $r['prefLink'] = self::WEB_BASE_URL . $locId;
+        $formattedDate = (new \Datetime($weatherInfo['publicTime']))->format('Y年m月d日');
+        $r['message']  = <<<EOT
+[ {$formattedDate} 発表 {$weatherInfo['title']} ]
+{$weatherInfo['forecasts'][0]['dateLabel']} の天気 {$weatherInfo['forecasts'][0]['telop']}
+{$weatherInfo['forecasts'][1]['dateLabel']} の天気 {$weatherInfo['forecasts'][1]['telop']} 予想最高気温 {$weatherInfo['forecasts'][1]['temperature']['max']['celsius']}℃ / 予想最低気温 {$weatherInfo['forecasts'][1]['temperature']['min']['celsius']}℃
+EOT;
+
+        $currentHour  = date('H');
+        $r['iconUrl'] = ($currentHour >= 20) ? $weatherInfo['forecasts'][0]['image']['url'] : $weatherInfo['forecasts'][1]['image']['url'];
 
         return $r;
     }
@@ -50,13 +60,13 @@ class Forecast
         if ($botChannel === '') {
             $botChannel = env('WEATHER_CHANNEL_ID', '');
         }
-        
+
         $locationIds = ['130010', '110010'];
         $result      = [];
         foreach ($locationIds as $locId) {
             $result[] = $this->getSpecificForecast($locId);
         }
-
+        $this->result = $result;
         $this->postMessages($botChannel, $result);
 
         return $result;
@@ -68,19 +78,39 @@ class Forecast
      */
     private function postMessages($botChannel, $result)
     {
-        $postUrl = 'https://slack.com/api/chat.postMessage?token=' . $this->key . '&channel=' . $botChannel . '&as_user=false' . '&username=WeatherBot' . '&parse=full' . '&unfurl_links=true' . '&unfurl_media=true' . '&text=';
+        $params = [
+            'token'        => $this->key,
+            'channel'      => $botChannel,
+            'as_user'      => false,
+            'username'     => 'WeatherBot',
+            'parse'        => 'full',
+            'unfurl_links' => true,
+            'unfurl_media' => true,
+        ];
+
         foreach ($result as $f) {
-            $this->postMessage($postUrl, $f);
+            $this->postMessage(
+                array_merge(
+                    $params,
+                    [
+                        'text'     => $f['link'] . ' ' . $f['prefLink'] . "\n" . $f['message'],
+                        'icon_url' => $f['iconUrl'],
+                    ]
+                )
+            );
         }
     }
 
     /**
-     * @param string $postUrl
-     * @param string $f
+     * @param array $params
      * @return string
      */
-    private function postMessage($postUrl, $f)
+    private function postMessage($params)
     {
-        return file_get_contents($postUrl . rawurlencode($f['link'] . ' ' . $f['prefLink']));
+        $postUrl = 'https://slack.com/api/chat.postMessage';
+        $q       = $postUrl . '?' . http_build_query($params);
+        print_r($q);
+
+        return file_get_contents($q);
     }
 }
