@@ -60,7 +60,7 @@ EOT;
             $botChannel = env('WEATHER_CHANNEL_ID', '');
         }
 
-        $locationIds = ['130010', '110010'];
+        $locationIds = explode(',', env('WEATHER_LOCATION_IDS', ''));
         $result      = [];
         foreach ($locationIds as $locId) {
             $result[] = $this->getSpecificForecast($locId);
