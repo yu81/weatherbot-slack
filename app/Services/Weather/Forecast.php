@@ -31,7 +31,7 @@ class Forecast
         $r           = array_filter(
             $weatherInfo['pinpointLocations'],
             function ($v) {
-                return $v['name'] === '板橋区' || $v['name'] === '新座市';
+                return count(array_intersect([$v['name']], $this->getCityNames())) === 1;
             });
         $r           = array_first($r);
         $r['name'] .= 'の天気';
@@ -112,5 +112,12 @@ EOT;
         $q       = $postUrl . '?' . http_build_query($params);
 
         return file_get_contents($q);
+    }
+
+    public function getCityNames()
+    {
+        $cityNames = env('WEATHER_LOCATION_CITY_NAMES', '');
+
+        return explode(',', $cityNames);
     }
 }
