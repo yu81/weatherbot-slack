@@ -4,3 +4,9 @@
 Homestead.yaml
 Homestead.json
 .env
+
+bootstrap/cache/
+storage/
+.env.*.php
+.env.php
+.env.example
