@@ -111,7 +111,6 @@ EOT;
     {
         $postUrl = 'https://slack.com/api/chat.postMessage';
         $q       = $postUrl . '?' . http_build_query($params);
-        print_r($q);
 
         return file_get_contents($q);
     }
