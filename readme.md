@@ -6,7 +6,7 @@
 ## deploy
 ### Heroku
 - php artisan key:generate
-- heroku create some-app-name
+- heroku create YOUR_APP_NAME
 - configure git remote heroku as official instruction https://devcenter.heroku.com/articles/git
 - git push heroku master
 - heroku config:set $(cat .env | egrep "^APP_KEY")
