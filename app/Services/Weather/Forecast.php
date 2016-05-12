@@ -133,7 +133,7 @@ EOT;
                 array_merge(
                     $params,
                     [
-                        'text'     => $f['link'] . ' ' . $f['prefLink'] . "\n" . $f['message'],
+                        'text'     => $f['message'] . "\n" . $f['link'] . ' ' . $f['prefLink'],
                         'icon_url' => $f['iconUrl'],
                     ]
                 )
